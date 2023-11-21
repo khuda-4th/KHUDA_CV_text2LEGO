@@ -36,7 +36,7 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 <img width="807" alt="Screenshot 2023-11-21 at 3 53 51 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/774d9205-6432-4c4c-b69b-eb49f0d82dda">
 또한 저희는 기존의 one-2-3-45 모델에 Super resolution 기법까지 결합해 보았습니다. 사용자들이 인터넷 을 통해 흔히 구할 수 있는 사진은 저해상도이거나 일부 픽셀이 왜곡되어있는 경우가 많습니다. 그렇기에 2D to 3D reconstruction을 진행할 때 픽셀 왜곡에 의해 의도치 않았던 Object가 생성되는 것을 막고자 image segmentation을 진행하기 이전에 Super resolution 과정을 거쳤습니다.
 
-저희가 super resolution에서 사용한 모델 stable diffusion 모델입니다. 해당 모델은 기존의 diffusion model들과는 달리,  autoencoder구조를 적용하여 pixel 공간과 perceptual하게 동일한 latent space를 학습합니다. 이는 space를 압축할 필요가 없어 계산 복잡성을 줄일 수 있고, 효율적인 학습을 통해 dall-e나 vqgan에 비해 개선된 성능을 보이기도 했습니다.
+저희가 super resolution에서 사용한 모델 stable diffusion 모델입니다. 해당 모델은 기존의 diffusion model들과는 달리,  autoencoder구조를 적용하여 pixel 공간과 perceptual하게 동일한 latent space를 학습합니다. 이는 space를 압축할 필요가 없어 계산 복잡성을 줄일 수 있고, 효율적인 학습을 통해 DALL-E나 VQGAN에 비해 개선된 성능을 보이기도 했습니다.
 
 ### SR + One-2-3-45
 <img width="807" alt="Screenshot 2023-11-21 at 3 57 16 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/d32e7492-a666-4eac-8970-fe18c4045d68">
