@@ -1,4 +1,4 @@
-# Make Anything With LEGO : Building LEGO 3D blueprint with 2D image Using Generative AI model
+# Make Anything with LEGO : Building LEGO 3D blueprint with 2D image Using Generative AI model
 
 ## 연구 동기
 트랜드 코리아 2023에서도 언급된 나이보다 어리게 사는 것이 미덕이 되는 현상인 '네버랜드 신드롬'은 올해 우리나라를 강타한 소비 트렌드 중 하나로 꼽힙니다. 네버랜드 신드롬은 행동 양식에 따라서 Stay, Return, Play의 세가지 유형으로 구분 됩니다.
