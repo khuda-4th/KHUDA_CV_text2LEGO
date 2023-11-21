@@ -72,6 +72,9 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 [4] Colouredvoxels2LDR, https://github.com/pennyforge/ColouredVoxels2LDR
 
 
+## Reference
+* ColouredVoxel2LDR: https://github.com/pennyforge/ColouredVoxels2LDR
+* One-2-3-45: https://github.com/One-2-3-45/One-2-3-45
 
 
 
