@@ -34,12 +34,14 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 
 ### Super Resolution
 <img width="807" alt="Screenshot 2023-11-21 at 3 53 51 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/774d9205-6432-4c4c-b69b-eb49f0d82dda">
+
 또한 저희는 기존의 one-2-3-45 모델에 Super resolution 기법까지 결합해 보았습니다. 사용자들이 인터넷 을 통해 흔히 구할 수 있는 사진은 저해상도이거나 일부 픽셀이 왜곡되어있는 경우가 많습니다. 그렇기에 2D to 3D reconstruction을 진행할 때 픽셀 왜곡에 의해 의도치 않았던 Object가 생성되는 것을 막고자 image segmentation을 진행하기 이전에 Super resolution 과정을 거쳤습니다.
 
 저희가 super resolution에서 사용한 모델 stable diffusion 모델입니다. 해당 모델은 기존의 diffusion model들과는 달리,  autoencoder구조를 적용하여 pixel 공간과 perceptual하게 동일한 latent space를 학습합니다. 이는 space를 압축할 필요가 없어 계산 복잡성을 줄일 수 있고, 효율적인 학습을 통해 DALL-E나 VQGAN에 비해 개선된 성능을 보이기도 했습니다.
 
 ### SR + One-2-3-45
 <img width="807" alt="Screenshot 2023-11-21 at 3 57 16 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/d32e7492-a666-4eac-8970-fe18c4045d68">
+
 앞서 설명한 모든 내용을 합친 최종적인 저희의 아키텍처는 다음과 같습니다. 우선 stable diffusion 모델을 활용하여 저해상도의 사진을 고해상도의 사진으로 upscaling해주고 denoising 해주었습니다. 이를 one-2-3-45 모델을 통해 segmentation을 거쳐 이미지의 object만을 추출한 뒤, 추출된 2d image를 3d mesh 형태로 생성합니다. 이를 voxel화 한후 ColuredVoxels2LDR이라는 모델을 통하여 최종적으로 LEGO 도면을 생성합니다. 
 
 ### colouredvoxels2LDR
@@ -50,8 +52,8 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 (추후 추가할 예정입니다)
 
 ### 연구적 가치
-- Make Anything With LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있다.
-- 또한 text-to-image 모델과 결합하여 text로 원하는 LEGO 도면을 추출할 수 있다는 추가 활용 방안이 존재한다.
+- Make Anything With LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
+- 또한 text-to-image 모델과 결합하여 text로 원하는 LEGO 도면을 추출할 수 있다는 추가 활용 방안이 존재합니다.
 
 ### 상업적 가치
 한국콘텐츠진흥원의 연구 결과에 따르면 키덜트 시장 규모는 2014년 5000억 원 수준에서 2020년 1조 6000억 원으로 확대되었고, 이는 향후 최대 11조 원까지 성장할 것으로 전망된다고 말합니다. 저희는 이렇듯 상업적 가치가 있는 키덜트 시장에 포커스를 맞추었습니다. 
