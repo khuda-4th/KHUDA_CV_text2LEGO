@@ -3,8 +3,8 @@
 3d mesh(.off)에서 카메라 방향 조절을 통한 2d rendering
 
 ### 1. ModelNet40의 데이터셋 사용
-[다운로드 링크](https://www.kaggle.com/datasets/balraj98/modelnet40-princeton-3d-object-dataset)
-이 중 14개의 클래스를 선별적으로 골라 사용하였습니다.(선별한 클래스는 .py 참고)
+[다운로드 링크](https://www.kaggle.com/datasets/balraj98/modelnet40-princeton-3d-object-dataset)<br>
+이 중 14개의 클래스를 선별적으로 골라 사용하였습니다.(선별한 클래스는 .py 참고)<br>
 
 ### 2. 카메라 방향 조절 설명
 
