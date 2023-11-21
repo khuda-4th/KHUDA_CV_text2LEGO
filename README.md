@@ -1,7 +1,7 @@
 # Make Anything with LEGO : Building LEGO 3D blueprint with 2D image Using Generative AI model
 
 ## 연구 동기
-트랜드 코리아 2023에서도 언급된 나이보다 어리게 사는 것이 미덕이 되는 현상인 '네버랜드 신드롬'은 올해 우리나라를 강타한 소비 트렌드 중 하나로 꼽힙니다. 네버랜드 신드롬은 행동 양식에 따라서 Stay, Return, Play의 세가지 유형으로 구분 됩니다.
+트렌드 코리아 2023에서도 언급된 나이보다 어리게 사는 것이 미덕이 되는 현상인 '네버랜드 신드롬'은 올해 우리나라를 강타한 소비 트렌드 중 하나로 꼽힙니다. 네버랜드 신드롬은 행동 양식에 따라서 Stay, Return, Play의 세가지 유형으로 구분 됩니다.
 
 
 저희는 이 중에서 어린 시절로 돌아가려하는 Return과 아이처럼 재미있게 노는 것을 추구하는 Play에 포커스를 두어 유년 시절 자주 가지고 놀던 LEGO를 떠올렸습니다. 여러분은 레고 시리즈 중에서 무엇을 가장 좋아하셨나요? 저희 팀원 중 한명은 시티 시리즈의 레고를 활용하여 자신만의 도시를 만드는 것이 어릴 적 꿈이었다고 합니다. 하지만 이미 존재하는 디자인에서 벗어나 원하는 도시를 만드는 일은 어려웠습니다.
@@ -35,24 +35,24 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 ### Super Resolution
 <img width="807" alt="Screenshot 2023-11-21 at 3 53 51 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/774d9205-6432-4c4c-b69b-eb49f0d82dda">
 
-또한 저희는 기존의 one-2-3-45 모델에 Super resolution 기법까지 결합해 보았습니다. 사용자들이 인터넷 을 통해 흔히 구할 수 있는 사진은 저해상도이거나 일부 픽셀이 왜곡되어있는 경우가 많습니다. 그렇기에 2D to 3D reconstruction을 진행할 때 픽셀 왜곡에 의해 의도치 않았던 Object가 생성되는 것을 막고자 image segmentation을 진행하기 이전에 Super resolution 과정을 거쳤습니다.
+또한 저희는 기존의 one-2-3-45 모델에 Super resolution 기법까지 결합해 보았습니다. 사용자들이 인터넷을 통해 흔히 구할 수 있는 사진은 저해상도이거나 일부 픽셀이 왜곡되어있는 경우가 많습니다. 그렇기에 2D to 3D reconstruction을 진행할 때 픽셀 왜곡에 의해 의도치 않았던 Object가 생성되는 것을 막고자 image segmentation을 진행하기 이전에 Super resolution 과정을 거쳤습니다.
 
 저희가 super resolution에서 사용한 모델 stable diffusion 모델입니다. 해당 모델은 기존의 diffusion model들과는 달리,  autoencoder구조를 적용하여 pixel 공간과 perceptual하게 동일한 latent space를 학습합니다. 이는 space를 압축할 필요가 없어 계산 복잡성을 줄일 수 있고, 효율적인 학습을 통해 DALL-E나 VQGAN에 비해 개선된 성능을 보이기도 했습니다.
 
 ### SR + One-2-3-45
 <img width="807" alt="Screenshot 2023-11-21 at 3 57 16 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/d32e7492-a666-4eac-8970-fe18c4045d68">
 
-앞서 설명한 모든 내용을 합친 최종적인 저희의 아키텍처는 다음과 같습니다. 우선 stable diffusion 모델을 활용하여 저해상도의 사진을 고해상도의 사진으로 upscaling해주고 denoising 해주었습니다. 이를 one-2-3-45 모델을 통해 segmentation을 거쳐 이미지의 object만을 추출한 뒤, 추출된 2d image를 3d mesh 형태로 생성합니다. 이를 voxel화 한후 ColuredVoxels2LDR이라는 모델을 통하여 최종적으로 LEGO 도면을 생성합니다. 
+앞서 설명한 모든 내용을 합친 최종적인 저희의 아키텍처는 다음과 같습니다. 우선 stable diffusion 모델을 활용하여 저해상도의 사진을 고해상도의 사진으로 upscaling해주고 denoising 해주었습니다. 이를 one-2-3-45 모델을 통해 segmentation을 거쳐 이미지의 object만을 추출한 뒤, 추출된 2d image를 3d mesh 형태로 생성합니다. 이를 voxel화 한후 ColouredVoxels2LDR이라는 모델을 통하여 최종적으로 LEGO 도면을 생성합니다. 
 
-### colouredvoxels2LDR
-저희의 주요 모델을 통해 생성된 3d mesh 이미지는 colouredvoxels2LDR 알고리즘을 통해 레고 도면으로 완성됩니다. 위 알고리즘은 우선 각각의 복셀을 1*1의 레고 브릭으로 변환합니다. 그리고 모델의 Z좌표에서 각 레이어를 반복하여 브릭을 더 큰 브릭으로 결합할 그룹을 찾습니다. 컬러 정보의 경우에는 voxel 파일에서 추출한 후 레이어를 최적화하여 레고 브릭에 적용하게 됩니다. 
+### Colouredvoxels2LDR
+저희의 주요 모델을 통해 생성된 3d mesh 이미지는 Colouredvoxels2LDR 알고리즘을 통해 레고 도면으로 완성됩니다. 위 알고리즘은 우선 각각의 복셀을 1*1의 레고 브릭으로 변환합니다. 그리고 모델의 Z좌표에서 각 레이어를 반복하여 브릭을 더 큰 브릭으로 결합할 그룹을 찾습니다. 컬러 정보의 경우에는 voxel 파일에서 추출한 후 레이어를 최적화하여 레고 브릭에 적용하게 됩니다. 
 
 ## 결과
 ### 시연영상
 (추후 추가할 예정입니다)
 
 ### 연구적 가치
-- Make Anything With LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
+- Make Anything with LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
 - 또한 text-to-image 모델과 결합하여 text로 원하는 LEGO 도면을 추출할 수 있다는 추가 활용 방안이 존재합니다.
 
 ### 상업적 가치
@@ -63,13 +63,13 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 또한 사용자가 원하는 디자인의 이미지를 통해 LEGO 도면을 제작하여 저비용으로 레고 디자인을 할 수도 있습니다. 네버랜드 신드롬 트렌드에 따라 다시 인기를 끄는 캐릭터들의 레고 도면을 제작해 대중의 이목을 끌고 마케팅적으로도 활용할 수 있을 것입니다. 
 
 ## 참고문헌
-[1] image2Lego: Customized LEGO Set Generation from Images, https://arxiv.org/pdf/2108.08477.pdf
+[1] Image2Lego: Customized LEGO Set Generation from Images, https://arxiv.org/pdf/2108.08477.pdf
 
 [2] High-Resolution Image Synthesis with Latent Diffusion Models, https://arxiv.org/pdf/2112.10752.pdf
 
 [3] One-2-3-45: Any Single Image to 3D Mesh in 45 Seconds without Per-Shape Optimization, https://arxiv.org/pdf/2306.16928.pdf
 
-[4] colouredvoxels2LDR, https://github.com/pennyforge/ColouredVoxels2LDR
+[4] Colouredvoxels2LDR, https://github.com/pennyforge/ColouredVoxels2LDR
 
 
 
