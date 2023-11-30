@@ -51,7 +51,7 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 
 ## 결과
 ### 시연영상
-https://youtu.be/ssxGBVQofQU
+[https://youtu.be/ssxGBVQofQU](https://www.youtube.com/watch?v=c-NsbsgWnhQ&t=9s)
 
 ### example image
 ![erad](https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/127406760/166cb221-4b87-4bbe-b343-a8f117cf7aa9)
