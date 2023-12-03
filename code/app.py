@@ -1,6 +1,6 @@
-#pip install git+https://github.com/huggingface/diffusers.git
+# pip install git+https://github.com/huggingface/diffusers.git
 
-from diffusers import DiffusionPipeline ## SR
+from diffusers import LDMSuperResolutionPipeline
 from gradio_client import Client    ## one-2-3-45 API
 from io import BytesIO
 import streamlit as st
@@ -47,11 +47,11 @@ local_model_path = os.path.join(model_path, model_id)
 
 if not os.path.exists(local_model_path):
     # Download the model if it doesn't exist locally
-    pipeline = DiffusionPipeline.from_pretrained(model_id)
+    pipeline = LDMSuperResolutionPipeline.from_pretrained(model_id)
     pipeline.save_pretrained(local_model_path)
 else:
     # Load the model from the local path
-    pipeline = DiffusionPipeline.from_pretrained(local_model_path)
+    pipeline = LDMSuperResolutionPipeline.from_pretrained(local_model_path)
 
 # ...
 
@@ -73,7 +73,7 @@ if img_file_buffer is not None:
 
     ### 최종 때 주석 해제
     upscaled_image = pipeline(image=image).images[0]
-    upscaled_image.save("/Users/hyeokseung/Desktop/SCAICO/image/ldm_generated_image.png")
+    upscaled_image.save("/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/ldm_generated_image.png")
     
     # Display the final super resolution result
     st.subheader("Step 1: Super Resolution")
@@ -88,11 +88,11 @@ if img_file_buffer is not None:
     client = Client("https://one-2-3-45-one-2-3-45.hf.space/")
     
     segmented_img_filepath = client.predict(
-	'/Users/hyeokseung/Desktop/SCAICO/image/ldm_generated_image.png',	
+	'/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/ldm_generated_image.png',	
 	api_name="/preprocess"
 )
     segmented_img_filepath = Image.open(segmented_img_filepath)
-    segmented_img_filepath.save('/Users/hyeokseung/Desktop/SCAICO/image/segmented_img.png')
+    segmented_img_filepath.save('/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/segmented_img.png')
 
     st.image(segmented_img_filepath, caption='Segmentation Result', width=None, use_column_width=False)
 
@@ -101,14 +101,14 @@ if img_file_buffer is not None:
     st.subheader("Step 3: 3D Mesh Conversion")
     st.markdown("Converts the segmented objects into a 3D mesh with the .ply extension.")
     generated_mesh_filepath = client.predict(
-	'/Users/hyeokseung/Desktop/SCAICO/image/segmented_img.png',	
+	'/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/segmented_img.png',	
 	True,		# image preprocessing
 	api_name="/generate_mesh"
 )
     mesh = trimesh.load_mesh(generated_mesh_filepath)
-    target_filepath = "/Users/hyeokseung/Desktop/SCAICO/image/output_mesh.ply"
+    target_filepath = "/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/output_mesh.ply"
     shutil.copy(generated_mesh_filepath, target_filepath)
 
     # Visualize the mesh using pydeck
     st.markdown("### Congratulations!")
-    st.image('/Users/hyeokseung/Desktop/SCAICO/image/complete.png')
+    st.image('/Users/hyeokseung/Desktop/mawl/Make_Anything_with_LEGO/image/complete.png')
