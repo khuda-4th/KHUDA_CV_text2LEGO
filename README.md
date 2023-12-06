@@ -5,6 +5,11 @@
 저희는 **원하는 모든 것을 LEGO로 만들어보자!** 라는 아이디어로 이 프로젝트를 시작했습니다. 하지만 사용자가 만들고 싶은 물체의 사진을 인터넷 상에서 구할 수 없을 수 있기 때문에 Text to image 모델을 결합하여 텍스트만으로 만들고 싶은 물체의 사진으로 레고 도면을 제작해주는 서비스를 고안하였습니다.
 
 ## 연구 과정
+
+### Architecture
+![architecture](https://github.com/khuda-4th/text2LEGO/assets/108567536/b0f444db-b19a-48d7-9c91-72cbaca85817)
+먼저 프롬프트를 통해 텍스트를 입력받고, 이를 text2image Stable diffusion 모델을 통해 2D image로 만들고, Super resolution을 통해 고해상도의 이미지로 변환됩니다. 이렇게 만들어진 고해상도의 이미지는 One-2-3-45 모델을 통해 segmentation되고 3D mesh로 변환됩니다. 이를 복셀화하고 Lego algorithm을 거치면 레고 도면이 생성됩니다. 
+
 ### Image2LEGO
 ![image2lego](https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/f9ab4104-4da6-4866-a0b9-6bb31cfde274)
 저희가 기존에 채택했던 구조는 Image2LEGO 모델로 아키텍쳐는 그림과 같습니다. 이는 크게 3d autoencoder와 2d image encoder로 나뉩니다. 3d object를 3d encoder에 넣고, 2d image를 2d encoder에 넣어 나온 각각의 latent vector들 간의 MSE loss를 통해 3d encoder를 학습시킵니다. 이후 input 값인 3d object와 decoder를 통해 나온 3d object output 사이의 BCE Loss를 구하고 가중치를 갱신하는 과정을 통해 네트워크를 학습시킵니다. train 과정이 끝난 이후에는 학습 시킨 2d encoder와 3d decoder를 결합합니다. 결과적으로 2d image를 넣었을 때 3d object가 나오는 test 모델을 완성할 수 있습니다.
