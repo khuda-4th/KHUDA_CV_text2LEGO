@@ -57,10 +57,6 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 ## 결과
 ### 시연영상
 
-### example image
-![erad](https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/127406760/166cb221-4b87-4bbe-b343-a8f117cf7aa9)
-
-Text2LEGO를 통해 만들어진 output들의 예시입니다. 차례대로 segmentation, 3d mesh, voxelization, LEGO 알고리즘을 거쳤습니다.
 
 ### 연구적 가치
 - Text2LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
