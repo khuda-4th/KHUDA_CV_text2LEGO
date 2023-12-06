@@ -1,12 +1,8 @@
-# Make Anything with LEGO : Building LEGO 3D blueprint with 2D image Using Generative AI model
+# Text2LEGO : Building LEGO 3D blueprint with only text Using Generative AI model
 
 ## 연구 동기
-트렌드 코리아 2023에서도 언급된 나이보다 어리게 사는 것이 미덕이 되는 현상인 '네버랜드 신드롬'은 올해 우리나라를 강타한 소비 트렌드 중 하나로 꼽힙니다. 네버랜드 신드롬은 행동 양식에 따라서 Stay, Return, Play의 세가지 유형으로 구분 됩니다.
 
-
-저희는 이 중에서 어린 시절로 돌아가려하는 Return과 아이처럼 재미있게 노는 것을 추구하는 Play에 포커스를 두어 유년 시절 자주 가지고 놀던 LEGO를 떠올렸습니다. 여러분은 레고 시리즈 중에서 무엇을 가장 좋아하셨나요? 저희 팀원 중 한명은 시티 시리즈의 레고를 활용하여 자신만의 도시를 만드는 것이 어릴 적 꿈이었다고 합니다. 하지만 이미 존재하는 디자인에서 벗어나 원하는 도시를 만드는 일은 어려웠습니다.
-
-그래서 저희는 **원하는 모든 것을 LEGO로 만들어보자!** 라고 생각하게 되었고, 만들고 싶은 물체의 사진으로 레고 도면을 제작해주는 서비스를 고안하였습니다.
+저희는 **원하는 모든 것을 LEGO로 만들어보자!** 라는 아이디어로 이 프로젝트를 시작했습니다. 하지만 사용자가 만들고 싶은 물체의 사진을 인터넷 상에서 구할 수 없을 수 있기 때문에 Text to image 모델을 결합하여 텍스트만으로 만들고 싶은 물체의 사진으로 레고 도면을 제작해주는 서비스를 고안하였습니다.
 
 ## 연구 과정
 ### Image2LEGO
@@ -32,6 +28,10 @@
 
 one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization 과정을 간소화했고, 한 번의 feed-forward만으로도 3d mesh를 적은 시간 내에 구현할 수 있었습니다.
 
+### Text to image(Stable Diffusion)
+
+저희는 Text to image를 Stable Diffusion 모델을 통해 구현했습니다. Stable diffusion 은 VAE 를 사용하여 이미지를 저차원으로 사영하고 저차원에서의 diffusion process 를 수행합니다. 저차원에서 text 와 이미지 정보를 Cross Attention 방식으로 연결시킨 후 샘플링된 저차원 벡터를 VAE 디코더에 입력하여 이미지를 생성합니다. 이렇게 저차원에서 diffusion process 를 거치면 computational cost 를 줄일 수 있습니다.
+
 ### Super Resolution
 <img width="807" alt="Screenshot 2023-11-21 at 3 53 51 PM" src="https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/64340624/774d9205-6432-4c4c-b69b-eb49f0d82dda">
 
@@ -51,16 +51,15 @@ one-2-3-45 모델은 앞선 세 모듈의 결합으로 불필요한 optimization
 
 ## 결과
 ### 시연영상
-[https://youtu.be/ssxGBVQofQU](https://www.youtube.com/watch?v=c-NsbsgWnhQ&t=9s)
 
 ### example image
 ![erad](https://github.com/KHAI-2023/Make_Anything_with_LEGO/assets/127406760/166cb221-4b87-4bbe-b343-a8f117cf7aa9)
 
-Make Anything with LEGO를 통해 만들어진 output들의 예시입니다. 차례대로 segmentation, 3d mesh, voxelization, LEGO 알고리즘을 거쳤습니다.
+Text2LEGO를 통해 만들어진 output들의 예시입니다. 차례대로 segmentation, 3d mesh, voxelization, LEGO 알고리즘을 거쳤습니다.
 
 ### 연구적 가치
-- Make Anything with LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
-- 또한 text-to-image 모델과 결합하여 text로 원하는 LEGO 도면을 추출할 수 있다는 추가 활용 방안이 존재합니다.
+- Text2LEGO 모델은 Super Resolution 과 One-2-3-45 모델에 연결하여 더 좋은 output을 추출할 수 있었습니다. 또한 기존 Image2LEGO 모델에 비해 단순한 3d public dataset의 카테고리에서 벗어나 더 많은 결과물을 만들 수 있습니다.
+- 또한 text-to-image 모델과 결합하여 text로 원하는 LEGO 도면을 추출할 수 있습니다.
 
 ### 상업적 가치
 한국콘텐츠진흥원의 연구 결과에 따르면 키덜트 시장 규모는 2014년 5000억 원 수준에서 2020년 1조 6000억 원으로 확대되었고, 이는 향후 최대 11조 원까지 성장할 것으로 전망된다고 말합니다. 저희는 이렇듯 상업적 가치가 있는 키덜트 시장에 포커스를 맞추었습니다. 
